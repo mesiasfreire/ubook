@@ -846,6 +846,9 @@ module.exports = {
     "disabled",
   ],
   variants: {
+    extend: {
+      borderWidth: ["last"],
+    },
     accessibility: ["responsive", "focus-within", "focus"],
     alignContent: ["responsive"],
     alignItems: ["responsive"],

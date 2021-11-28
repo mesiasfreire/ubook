@@ -1,6 +1,9 @@
 <template>
-  <Agenda />
-  <section
+  <div class="h-4/5 overflow-y-auto">
+    <Agenda />
+  </div>
+
+  <!-- <section
     class="flex justify-center items-center flex-col mx-auto gap-4 my-20"
   >
     <img src="@/assets/icons/ic-book.svg" alt="Nenhum contato foi criado" />
@@ -22,7 +25,7 @@
       </svg>
       Criar contato
     </button>
-  </section>
+  </section> -->
 </template>
 
 <script>

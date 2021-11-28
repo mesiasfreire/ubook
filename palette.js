@@ -11,6 +11,7 @@ module.exports = {
     grayligth: "#f8f9fd",
     graylilac: "#e4e7f4",
     bluegray: "#9198af",
+    verylightpink: "#fff3f2",
   },
   yellowGreen: {
     50: "#dbff90",
