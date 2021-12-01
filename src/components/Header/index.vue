@@ -3,6 +3,8 @@
     <nav class="flex justify-between items-center mb-4">
       <img src="@/assets/icons/ic-logo.svg" alt="Logo Ubook" class="" />
       <button
+        v-if="agenda.length !== 0"
+        @click="handleNewContact"
         class="rounded-full bg-yellowGreen-50 py-2 w-44 mx-4 shadow-md text-tomato-25 font-medium font- flex items-center justify-evenly"
       >
         <svg
@@ -19,11 +21,13 @@
         </svg>
         Criar contato
       </button>
-      <label class="relative flex-1 max-w-7xl">
+      <label class="relative w-3/4 max-w-6xl">
         <input
           class="p-3 w-full bg-main-graylilac outline-none"
           type="text"
           placeholder="Buscar..."
+          v-model="state.busca.value"
+          @keyup="handleFindContact"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +49,41 @@
 </template>
 
 <script>
+import { getCurrentAgenda, findContact } from "@/store/agenda";
+import useModal from "@/hooks/useModal";
+import { reactive } from "vue";
+
 export default {
   name: "Header",
+
+  setup() {
+    const agenda = getCurrentAgenda();
+    const modal = useModal();
+
+    const state = reactive({
+      busca: {
+        value: "",
+      },
+    });
+
+    function handleNewContact() {
+      modal.open({
+        component: "ModalNewContact",
+      });
+    }
+    function handleFindContact(val) {
+      const term = val.target.value;
+      if (term.length > 3) {
+        findContact(term);
+      }
+    }
+
+    return {
+      agenda,
+      handleNewContact,
+      handleFindContact,
+      state,
+    };
+  },
 };
 </script>

@@ -2,12 +2,18 @@ const colors = require("tailwindcss/colors");
 const palette = require("./palette");
 
 module.exports = {
-  purge: [],
+  purge: ["./src/**/*.html", "./src/**/*.vue", "./src/**/*.jsx"],
   presets: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: palette,
+      transitionDuration: {
+        10000: "10000ms",
+      },
+    },
+    maxHeight: {
+      "3/4": "768px",
     },
     screens: {
       sm: "640px",
@@ -534,11 +540,11 @@ module.exports = {
       ...theme("spacing"),
       ...negative(theme("spacing")),
     }),
-    maxHeight: (theme) => ({
-      ...theme("spacing"),
-      full: "100%",
-      screen: "100vh",
-    }),
+    // maxHeight: (theme) => ({
+    //   ...theme("spacing"),
+    //   full: "100%",
+    //   screen: "100vh",
+    // }),
     maxWidth: (theme, { breakpoints }) => ({
       none: "none",
       0: "0rem",
@@ -847,6 +853,7 @@ module.exports = {
   ],
   variants: {
     extend: {
+      transitionDuration: ["hover", "focus", "last"],
       borderWidth: ["last"],
     },
     accessibility: ["responsive", "focus-within", "focus"],

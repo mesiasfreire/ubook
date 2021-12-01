@@ -1,14 +1,18 @@
 <template>
-  <div class="h-4/5 overflow-y-auto">
-    <Agenda />
-  </div>
+  <Agenda
+    v-if="agenda.length !== 0"
+    @editContact="handleEditContact"
+    @deleteContact="handleDeleteContact"
+  />
 
-  <!-- <section
+  <section
+    v-if="agenda.length === 0"
     class="flex justify-center items-center flex-col mx-auto gap-4 my-20"
   >
     <img src="@/assets/icons/ic-book.svg" alt="Nenhum contato foi criado" />
     <p>Nenhum contato foi criado ainda</p>
     <button
+      @click="handleNewContact"
       class="rounded-full bg-yellowGreen-50 py-2 w-44 mx-4 shadow-md text-tomato-25 font-medium font- flex items-center justify-evenly"
     >
       <svg
@@ -25,12 +29,13 @@
       </svg>
       Criar contato
     </button>
-  </section> -->
+  </section>
 </template>
 
 <script>
-import { reactive } from "vue";
 import Agenda from "@/components/Agenda";
+import { getCurrentAgenda } from "@/store/agenda";
+import useModal from "@/hooks/useModal";
 
 export default {
   name: "Home",
@@ -38,12 +43,28 @@ export default {
     Agenda,
   },
   setup() {
-    const agenda = reactive({
-      count: 0,
-    });
-
+    const agenda = getCurrentAgenda();
+    const modal = useModal();
+    function handleNewContact() {
+      modal.open({
+        component: "ModalNewContact",
+      });
+    }
+    function handleEditContact() {
+      modal.open({
+        component: "ModalEditContact",
+      });
+    }
+    function handleDeleteContact() {
+      modal.open({
+        component: "ModalDeleteContact",
+      });
+    }
     return {
       agenda,
+      handleNewContact,
+      handleEditContact,
+      handleDeleteContact,
     };
   },
 };
