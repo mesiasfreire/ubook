@@ -2,6 +2,7 @@ import { reactive } from "vue";
 
 const state = reactive({
   currentAgenda: [],
+  filtredAgenda: [],
 });
 
 export function setCurrentAgenda(agenda) {
@@ -27,9 +28,16 @@ export function deleteCurrentContact(contact) {
 }
 export function findContact(data) {
   const result = state.currentAgenda.filter(
-    (value) => value.name.indexOf(data) > -1
+    (value) => value.name.toLowerCase().indexOf(data.toLowerCase()) > -1
   );
-  return result;
+  state.filtredAgenda = result;
+}
+
+export function getFiltredItems() {
+  return state.filtredAgenda;
+}
+export function resetFiltredList() {
+  state.filtredAgenda = [];
 }
 
 export default state;

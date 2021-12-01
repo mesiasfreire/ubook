@@ -18,44 +18,79 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          class="border-b last:border-b-0 hover:bg-main-verylightpink"
-          :class="{ lastItem: isLast(index) }"
-          v-for="(contact, index) in contacts"
-          :key="contact.id"
-        >
-          <td colspan="1" class="p-2">
-            <span
-              :style="{ 'background-color': '#' + randomColor() }"
-              class="flex justify-center items-center h-4 w-4 self-start rounded-full p-4 text-gray-100 font-medium mx-auto"
-              >{{ capitalized(contact.name) }}</span
-            >
-          </td>
-          <td class="text-left">{{ contact.name }}</td>
-          <td>{{ contact.email }}</td>
-          <td>{{ contact.tel }}</td>
-          <td class="flex justify-around items-center mt-4">
-            <button @click="handleContactEdit(contact)">
-              <img
-                src="@/assets/icons/ic-edit.svg"
-                alt="Botão de editar contato"
-              />
-            </button>
-            <button @click="handleContactDelete(contact)">
-              <img
-                src="@/assets/icons/ic-delete.svg"
-                alt="Botão de deletar contato"
-              />
-            </button>
-          </td>
-        </tr>
+        <template v-if="getFiltredItems().length > 0">
+          <tr
+            class="border-b last:border-b-0 hover:bg-main-verylightpink"
+            :class="{ lastItem: isLast(index) }"
+            v-for="(contact, index) in getFiltredItems()"
+            :key="contact.id"
+          >
+            <td colspan="1" class="p-2">
+              <span
+                :style="{ 'background-color': '#' + randomColor() }"
+                class="flex justify-center items-center h-4 w-4 self-start rounded-full p-4 text-gray-100 font-medium mx-auto"
+                >{{ capitalized(contact.name) }}</span
+              >
+            </td>
+            <td class="text-left">{{ contact.name }}</td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.tel }}</td>
+            <td class="flex justify-around items-center mt-4">
+              <button @click="handleContactEdit(contact)">
+                <img
+                  src="@/assets/icons/ic-edit.svg"
+                  alt="Botão de editar contato"
+                />
+              </button>
+              <button @click="handleContactDelete(contact)">
+                <img
+                  src="@/assets/icons/ic-delete.svg"
+                  alt="Botão de deletar contato"
+                />
+              </button>
+            </td>
+          </tr>
+        </template>
+        <template v-if="getFiltredItems().length === 0">
+          <tr
+            class="border-b last:border-b-0 hover:bg-main-verylightpink"
+            :class="{ lastItem: isLast(index) }"
+            v-for="(contact, index) in contacts"
+            :key="contact.id"
+          >
+            <td colspan="1" class="p-2">
+              <span
+                :style="{ 'background-color': '#' + randomColor() }"
+                class="flex justify-center items-center h-4 w-4 self-start rounded-full p-4 text-gray-100 font-medium mx-auto"
+                >{{ capitalized(contact.name) }}</span
+              >
+            </td>
+            <td class="text-left">{{ contact.name }}</td>
+            <td>{{ contact.email }}</td>
+            <td>{{ contact.tel }}</td>
+            <td class="flex justify-around items-center mt-4">
+              <button @click="handleContactEdit(contact)">
+                <img
+                  src="@/assets/icons/ic-edit.svg"
+                  alt="Botão de editar contato"
+                />
+              </button>
+              <button @click="handleContactDelete(contact)">
+                <img
+                  src="@/assets/icons/ic-delete.svg"
+                  alt="Botão de deletar contato"
+                />
+              </button>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
   </div>
 </template>
 
 <script>
-import { getCurrentAgenda } from "@/store/agenda";
+import { getCurrentAgenda, getFiltredItems } from "@/store/agenda";
 import { setCurrentContact } from "@/store/contact";
 import { watchEffect } from "@vue/runtime-core";
 export default {
@@ -63,6 +98,7 @@ export default {
 
   setup(_, { emit }) {
     const contacts = getCurrentAgenda();
+
     watchEffect(() => {
       isLast();
     });
@@ -83,6 +119,7 @@ export default {
       setCurrentContact({ ...val });
       emit("deleteContact");
     }
+
     return {
       contacts,
       capitalized,
@@ -91,6 +128,7 @@ export default {
       handleContactDelete,
       handleContactEdit,
       isLast,
+      getFiltredItems,
     };
   },
 };

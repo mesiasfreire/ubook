@@ -49,7 +49,11 @@
 </template>
 
 <script>
-import { getCurrentAgenda, findContact } from "@/store/agenda";
+import {
+  getCurrentAgenda,
+  findContact,
+  resetFiltredList,
+} from "@/store/agenda";
 import useModal from "@/hooks/useModal";
 import { reactive } from "vue";
 
@@ -73,9 +77,8 @@ export default {
     }
     function handleFindContact(val) {
       const term = val.target.value;
-      if (term.length > 3) {
-        findContact(term);
-      }
+      if (term.length === 0) return resetFiltredList();
+      findContact(term);
     }
 
     return {
